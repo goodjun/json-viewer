@@ -24,7 +24,7 @@ export default {
   name: "json-form",
   data() {
     return {
-      code: '{name: "tom"}'
+      code: '{"name": "tom"}'
     };
   },
   created() {
