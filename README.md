@@ -1,6 +1,8 @@
-# json-view
+# Json Viewer
 
-> An electron-vue project
+> A Simple Json Viewer
+
+![Image Text](https://raw.githubusercontent.com/goodjun/json-viewer/master/screenshot.png)
 
 #### Build Setup
 
