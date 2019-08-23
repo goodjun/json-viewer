@@ -1,5 +1,5 @@
 {
-  "name": "json-view",
+  "name": "json-viewer",
   "version": "0.0.1",
   "author": "goodjun <goodjun@163.com>",
   "description": "An electron-vue project",
@@ -17,7 +17,7 @@
     "postinstall": ""
   },
   "build": {
-    "productName": "json-view",
+    "productName": "json-viewer",
     "appId": "com.example.yourapp",
     "directories": {
       "output": "build"
