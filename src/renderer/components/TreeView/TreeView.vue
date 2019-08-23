@@ -1,17 +1,29 @@
 <template>
-  <div></div>
+  <div>
+    <Tree :data="data"></Tree>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "tree-view"
+  name: "tree-view",
+  data() {
+    return {
+      data: [
+        {
+          title: "JSON",
+          expand: true,
+          children: [
+            {
+              title: 'tom: "tom"'
+            }
+          ]
+        }
+      ]
+    };
+  }
 };
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
-
-body {
-  font-family: "Source Sans Pro", sans-serif;
-}
 </style>
