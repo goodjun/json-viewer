@@ -1,7 +1,13 @@
 <template>
   <Card title="History" icon="ios-apps" :padding="0" shadow>
-    <CellGroup>
-      <Cell v-for="history in historys" :title="history.json" :label="history.datetime" />
+    <CellGroup @on-click="readJson">
+      <Cell
+        v-for="history in historys"
+        :name="history.id"
+        :key="history.id"
+        :title="history.json"
+        :label="history.date"
+      />
     </CellGroup>
   </Card>
 </template>
@@ -11,16 +17,24 @@ export default {
   name: "json-history",
   data() {
     return {
-      historys: [
-        { json: '{"name": "tom"}', datetime: "2019/08/22 19:39" },
-        { json: '{"name": "tom"}', datetime: "2019/08/22 19:39" },
-        { json: '{"name": "tom"}', datetime: "2019/08/22 19:39" },
-        { json: '{"name": "tom"}', datetime: "2019/08/22 19:39" },
-        { json: '{"name": "tom"}', datetime: "2019/08/22 19:39" },
-        { json: '{"name": "tom"}', datetime: "2019/08/22 19:39" },
-        { json: '{"name": "tom"}', datetime: "2019/08/22 19:39" }
-      ]
+      historys: []
     };
+  },
+  methods: {
+    saveJson(obj) {
+      this.historys.push({
+        id: this.historys.length + 1,
+        json: JSON.stringify(obj),
+        date: this.$moment().format("YY-MM-DD HH:mm:ss")
+      });
+    },
+    readJson(index) {
+      const findIndex = this.historys.findIndex(history => {
+        return history.id === index;
+      });
+      const json = this.historys[findIndex].json;
+      this.$emit("onReadJson", json);
+    }
   }
 };
 </script>
@@ -28,6 +42,5 @@ export default {
 <style>
 .ivu-card {
   margin-right: 10px;
-  height: 520px;
 }
 </style>

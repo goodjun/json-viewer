@@ -2,17 +2,17 @@
   <div id="wrapper">
     <Layout>
       <Sider hide-trigger class="sider">
-        <JsonHistory></JsonHistory>
+        <JsonHistory ref="jsonHistory" @onReadJson="onReadJson"></JsonHistory>
       </Sider>
       <Layout>
         <Content>
           <div class="content-height-offset"></div>
           <Tabs value="json-form">
             <TabPane label="Text" name="json-form">
-              <JsonForm></JsonForm>
+              <JsonForm ref="jsonForm" @onFormatJson="onFormatJson"></JsonForm>
             </TabPane>
             <TabPane label="Viewer" name="tree-view">
-              <TreeView></TreeView>
+              <TreeView ref="treeView"></TreeView>
             </TabPane>
           </Tabs>
         </Content>
@@ -28,7 +28,16 @@ import JsonHistory from "./JsonHistory/JsonHistory";
 
 export default {
   name: "home-page",
-  components: { JsonForm, TreeView, JsonHistory }
+  components: { JsonForm, TreeView, JsonHistory },
+  methods: {
+    onFormatJson(obj) {
+      this.$refs.jsonHistory.saveJson(obj);
+      this.$refs.treeView.parseJson(obj);
+    },
+    onReadJson(json) {
+      this.$refs.jsonForm.onReadJson(json);
+    }
+  }
 };
 </script>
 

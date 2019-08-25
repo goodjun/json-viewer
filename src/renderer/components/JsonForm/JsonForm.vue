@@ -1,63 +1,94 @@
 <template>
   <div>
-    <Button icon="ios-code">Format</Button>
-    <Button icon="ios-redo-outline">Export</Button>
+    <Button icon="ios-code" @click="formatJson()">Format</Button>
+    <Button icon="ios-redo-outline" @click="exportExcel()">Export</Button>
     <br />
     <br />
-    <textarea ref="mycode" v-model="code"></textarea>
+    <editor
+      ref="editor"
+      theme="chrome"
+      :height="editorHeight"
+      content=""
+      :options="editorOptions"
+      :fontSize="14"
+      :lang="'javascript'"
+      @onChange="editorChange"
+      @init="editorInit"
+    ></editor>
   </div>
 </template>
 
 <script>
-import "codemirror/lib/codemirror.css";
-import "codemirror/addon/hint/show-hint.css";
-
-let CodeMirror = require("codemirror/lib/codemirror");
-
-require("codemirror/mode/javascript/javascript");
-
-require("codemirror/addon/edit/matchbrackets");
-require("codemirror/addon/selection/active-line");
-require("codemirror/addon/hint/show-hint");
+import Editor from "vue2x-ace-editor";
 
 export default {
   name: "json-form",
+  components: {
+    Editor
+  },
   data() {
     return {
-      code: '{"name": "tom"}'
+      lastJson: "",
+      editorOptions: {
+        enableSnippets: false,
+        tabSize: 2,
+        enableBasicAutocompletion: false,
+        enableLiveAutocompletion: false,
+        useWrapMode: true,
+        indentedSoftWrap: false,
+        behavioursEnabled: false,
+        wrap: "free"
+      },
+      editorHeightOffset: 150,
+      editorHeight: window.innerHeight - 150
     };
   },
   created() {
     //
   },
   methods: {
-    test() {
+    editorInit() {
+      require("brace/mode/javascript");
+      require("brace/theme/chrome");
+    },
+    editorChange() {
       //
+    },
+    formatJson(save = true) {
+      try {
+        const obj = JSON.parse(this.$refs.editor.session.getValue());
+        if (typeof obj === "object") {
+          const json = JSON.stringify(obj, null, 2);
+          this.$refs.editor.session.setValue(json);
+          if (save && this.lastJson !== json) this.$emit("onFormatJson", obj);
+          this.lastJson = json;
+        } else {
+          this.$Message.error("This is not JSON");
+          console.error("This is not JSON");
+          return;
+        }
+      } catch (e) {
+        this.$Message.error("This is not JSON");
+        console.error("This is not JSON");
+        return;
+      }
+    },
+    exportExcel() {
+      // TODO: 导出功能
+    },
+    onReadJson(json) {
+      this.$refs.editor.session.setValue(json);
+      this.formatJson(false);
     }
   },
   mounted() {
     window.addEventListener("resize", e => {
-      console.log(window.innerHeight);
+      this.editorHeight = window.innerHeight - 150;
       e.preventDefault();
-    });
-
-    let editor = CodeMirror.fromTextArea(this.$refs.mycode, {
-      mode: "text/javascript",
-      indentWithTabs: true,
-      smartIndent: true,
-      lineNumbers: true,
-      matchBrackets: true,
-      autofocus: true,
-      lineWrapping: true,
-      indentUnit: 4
     });
   }
 };
 </script>
 
 <style>
-.CodeMirror {
-  /* 146px */
-  height: 400px;
-}
 </style>

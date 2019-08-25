@@ -8,22 +8,22 @@ import store from './store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 
-import VueCodemirror from 'vue-codemirror'
-import 'codemirror/lib/codemirror.css'
+import moment from 'moment'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 Vue.use(iView)
-Vue.use(VueCodemirror)
+
+Vue.prototype.$moment = moment;
 
 /* eslint-disable no-new */
 new Vue({
-  components: {
-    App
-  },
-  router,
-  store,
-  template: '<App/>'
+    components: {
+        App
+    },
+    router,
+    store,
+    template: '<App/>'
 }).$mount('#app')
