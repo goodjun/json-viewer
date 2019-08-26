@@ -20,10 +20,17 @@ export default {
       historys: []
     };
   },
+  mounted() {
+    this.loadHistory();
+    window.addEventListener("beforeunload", e => {
+      this.saveHistory();
+    });
+  },
   methods: {
     saveJson(obj) {
-      this.historys.push({
-        id: this.historys.length + 1,
+      if (this.historys.length > 20) this.historys.pop();
+      this.historys.unshift({
+        id: this.$uuid.v4(),
         json: JSON.stringify(obj),
         date: this.$moment().format("YY-MM-DD HH:mm:ss")
       });
@@ -34,6 +41,16 @@ export default {
       });
       const json = this.historys[findIndex].json;
       this.$emit("onReadJson", json);
+    },
+    saveHistory() {
+      localStorage.setItem("json_history", JSON.stringify(this.historys));
+    },
+    loadHistory() {
+      let jsonHistory = localStorage.getItem("json_history");
+      if (jsonHistory) {
+        jsonHistory = JSON.parse(jsonHistory);
+        this.historys = jsonHistory;
+      }
     }
   }
 };

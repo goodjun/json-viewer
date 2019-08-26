@@ -1,7 +1,7 @@
 <template>
   <div>
     <Button icon="ios-code" @click="formatJson()">Format</Button>
-    <Button icon="ios-redo-outline" @click="exportExcel()">Export</Button>
+    <!-- <Button icon="ios-redo-outline" @click="exportExcel()">Export</Button> -->
     <br />
     <br />
     <editor
@@ -12,7 +12,6 @@
       :options="editorOptions"
       :fontSize="14"
       :lang="'javascript'"
-      @onChange="editorChange"
       @init="editorInit"
     ></editor>
   </div>
@@ -44,6 +43,12 @@ export default {
       editorHeight: window.innerHeight - 150
     };
   },
+  mounted() {
+    window.addEventListener("resize", e => {
+      this.editorHeight = window.innerHeight - 150;
+      e.preventDefault();
+    });
+  },
   created() {
     //
   },
@@ -52,25 +57,23 @@ export default {
       require("brace/mode/javascript");
       require("brace/theme/chrome");
     },
-    editorChange() {
-      //
-    },
     formatJson(save = true) {
       try {
         const obj = JSON.parse(this.$refs.editor.session.getValue());
         if (typeof obj === "object") {
           const json = JSON.stringify(obj, null, 2);
           this.$refs.editor.session.setValue(json);
-          if (save && this.lastJson !== json) this.$emit("onFormatJson", obj);
+          if (this.lastJson !== json) {
+            this.$emit("parseJson", obj);
+            if (save) this.$emit("saveJson", obj);
+          }
           this.lastJson = json;
         } else {
           this.$Message.error("This is not JSON");
-          console.error("This is not JSON");
           return;
         }
       } catch (e) {
         this.$Message.error("This is not JSON");
-        console.error("This is not JSON");
         return;
       }
     },
@@ -81,12 +84,6 @@ export default {
       this.$refs.editor.session.setValue(json);
       this.formatJson(false);
     }
-  },
-  mounted() {
-    window.addEventListener("resize", e => {
-      this.editorHeight = window.innerHeight - 150;
-      e.preventDefault();
-    });
   }
 };
 </script>

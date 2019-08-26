@@ -9,7 +9,7 @@
           <div class="content-height-offset"></div>
           <Tabs value="json-form">
             <TabPane label="Text" name="json-form">
-              <JsonForm ref="jsonForm" @onFormatJson="onFormatJson"></JsonForm>
+              <JsonForm ref="jsonForm" @parseJson="onParseJson" @saveJson="onSaveJson"></JsonForm>
             </TabPane>
             <TabPane label="Viewer" name="tree-view">
               <TreeView ref="treeView"></TreeView>
@@ -30,9 +30,11 @@ export default {
   name: "home-page",
   components: { JsonForm, TreeView, JsonHistory },
   methods: {
-    onFormatJson(obj) {
-      this.$refs.jsonHistory.saveJson(obj);
+    onParseJson(obj) {
       this.$refs.treeView.parseJson(obj);
+    },
+    onSaveJson(obj) {
+      this.$refs.jsonHistory.saveJson(obj);
     },
     onReadJson(json) {
       this.$refs.jsonForm.onReadJson(json);
