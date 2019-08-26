@@ -8,7 +8,7 @@
       ref="editor"
       theme="chrome"
       :height="editorHeight"
-      content=""
+      :content="code"
       :options="editorOptions"
       :fontSize="14"
       :lang="'javascript'"
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Editor from "vue2x-ace-editor";
+import Editor from "../../../../node_modules/vue2x-ace-editor";
 
 export default {
   name: "json-form",
@@ -28,6 +28,7 @@ export default {
   },
   data() {
     return {
+      code: "",
       lastJson: "",
       editorOptions: {
         enableSnippets: false,
