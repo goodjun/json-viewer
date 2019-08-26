@@ -57,6 +57,7 @@
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
+    "vue-uuid": "^1.1.1",
     "vue2x-ace-editor": "^0.1.2",
     "vuescroll": "^4.14.0",
     "vuex": "^3.0.1",
