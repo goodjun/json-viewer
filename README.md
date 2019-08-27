@@ -1,6 +1,9 @@
 # Json Viewer
 
-> A Simple Json Viewer
+[![Badge](https://img.shields.io/badge/link-JsonViewer-orange)](https://github.com/goodjun/json-viewer)
+[![HitCount](http://hits.dwyl.io/goodjun/json-viewer.svg)](http://hits.dwyl.io/goodjun/json-viewer)
+
+**A Simple Json Viewer**
 
 <img src="screenshot.png">
 
