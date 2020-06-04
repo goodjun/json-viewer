@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <Tree :data="data" :empty-text="''"></Tree>
+  <div class="tree-view-warp">
+    <Tree
+      :data="data"
+      :empty-text="''"
+      :style="{ height: height + 'px' }"
+    ></Tree>
   </div>
 </template>
 
@@ -9,8 +13,15 @@ export default {
   name: "tree-view",
   data() {
     return {
-      data: []
+      data: [],
+      height: window.innerHeight - 100,
     };
+  },
+  mounted() {
+    window.addEventListener("resize", (e) => {
+      this.height = window.innerHeight - 100;
+      e.preventDefault();
+    });
   },
   methods: {
     parseJson(obj) {
@@ -20,12 +31,12 @@ export default {
           children.push({
             title: key,
             expand: false,
-            children: this.parseChildren(obj[key])
+            children: this.parseChildren(obj[key]),
           });
         } else {
           children.push({
             title: `${key}: "${obj[key]}"`,
-            expand: false
+            expand: false,
           });
         }
       }
@@ -33,7 +44,7 @@ export default {
       this.data.push({
         title: "JSON",
         expand: true,
-        children: children
+        children: children,
       });
     },
     parseChildren(obj) {
@@ -43,20 +54,26 @@ export default {
           children.push({
             title: key,
             expand: false,
-            children: this.parseChildren(obj[key])
+            children: this.parseChildren(obj[key]),
           });
         } else {
           children.push({
             title: `${key}: "${obj[key]}"`,
-            expand: false
+            expand: false,
           });
         }
       }
       return children;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
+.ivu-tree {
+  overflow: overlay;
+}
+.tree-view-warp {
+  margin-right: 10px;
+}
 </style>

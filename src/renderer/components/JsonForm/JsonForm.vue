@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="json-form-warp">
     <Button icon="ios-code" @click="formatJson()">Format</Button>
     <!-- <Button icon="ios-redo-outline" @click="exportExcel()">Export</Button> -->
     <br />
@@ -89,4 +89,7 @@ export default {
 </script>
 
 <style>
+.json-form-warp {
+  margin-right: 10px;
+}
 </style>
