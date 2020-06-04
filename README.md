@@ -10,9 +10,7 @@
 <img src="screenshot-tree.png">
 
 #### TODO LIST
-- [ ] TreeView 过长双滚动条问题
-- [ ] 导出功能
-- [ ] History持久化
+- [ ] Export excel
 
 #### Build Setup
 
